@@ -1,0 +1,28 @@
+<ui:composition template="../resources/template/template-administrador.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	<f:metadata>
+		<f:viewAction action="#{pessoaMB.inicializar()}" />
+	</f:metadata>
+	<ui:define name="conteudo">
+		<h:form id="formFormularioPessoas">
+			<p:messages />
+			
+
+
+				<p:commandButton value="Atualizar Nome pessoa" update="@form"
+					actionListener="#{certificadoMB.corrigir()}" />
+			
+
+		</h:form>
+
+		
+
+
+
+	</ui:define>
+
+</ui:composition>

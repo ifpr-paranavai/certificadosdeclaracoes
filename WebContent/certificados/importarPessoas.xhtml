@@ -1,0 +1,96 @@
+<ui:composition template="../resources/template/template-administrador.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	<f:metadata>
+		<f:viewAction action="#{pessoaMB.inicializar()}" />
+	</f:metadata>
+	<ui:define name="conteudo">
+		<p:panel header="Importar Pessoas">
+			<h:form id="formFormularioImportarPessoa">
+				<p:messages />
+				<h3>Para importar os dados, insira no campo abaixo a lista de
+					pessoas no seguinte formato:
+					nome,cpf,email,ra/siape;nome,cpf,email,ra/siape;nome,cpf,email,ra/siape;</h3>
+				<h3>Caso a pessoa não tenha o email ou ra/sipe, deixar em
+					branco: nome,cpf,,;nome,cpf,email,;nome,cpf,,ra/siape;"</h3>
+
+				<h:panelGrid columns="2">
+					<h:outputText value="Pessoas *" />
+					<p:inputTextarea value="#{pessoaMB.pessoasImportar}" cols="120"
+						rows="20" required="true" requiredMessage="Informar as Pessoas!!" />
+
+					<h:outputText value="" />
+					<p:commandButton value="Visualizar"
+						update="@form :formTabelaImportarPessoa"
+						actionListener="#{pessoaMB.prepararImportar()}" />
+
+				</h:panelGrid>
+				<br />
+			</h:form>
+
+			<h:form id="formTabelaImportarPessoa">
+				<p:dataTable var="pes" value="#{pessoaMB.listaPessoasImportar}"
+					style="margin-bottom:0" rows="20" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,20,30,50,100">
+					<f:facet name="header">
+						<h:outputText value="Pessoas para Importar" />
+					</f:facet>
+
+					<p:column headerText="Nome" filterBy="#{pes.nome}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.nome}" />
+					</p:column>
+
+					<p:column headerText="Ra/Siape" filterBy="#{pes.matricula}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.matricula}" />
+					</p:column>
+
+					<p:column headerText="E-mail" filterBy="#{pes.email}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.email}" />
+					</p:column>
+
+					<p:column headerText="CPF" filterBy="#{pes.cpf}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.cpf}" />
+					</p:column>
+					<p:column style="width:80px" headerText="Ações">
+
+
+						<p:commandButton title="Alterar" alt="Alterar"
+							icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{pes}"
+								target="#{pessoaMB.pessoa}" />
+						</p:commandButton>
+
+						<p:commandButton icon="ui-icon-trash" title="Inativar"
+							alt="Inativar">
+							<p:confirm header="Confirmação" message="Deseja inativar?" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" update="@form" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+				<p:commandButton value="Finalizar Importação"
+					update="@form :formFormularioImportarPessoa"
+					actionListener="#{pessoaMB.finalizarImportacao()}">
+					<p:confirm header="Confirmação" message="Confirma a Importação?" />
+				</p:commandButton>
+			</h:form>
+
+
+		</p:panel>
+	</ui:define>
+
+</ui:composition>

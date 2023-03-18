@@ -1,0 +1,149 @@
+<ui:composition
+	template="../resources/template/template-administrador.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	<!-- 	<f:metadata> -->
+	<!-- 		<f:viewAction action="{listaCertificadosMB.inicializar()}" /> -->
+	<!-- 	</f:metadata> -->
+	<ui:define name="conteudo">
+		<h:form>
+			<h:panelGrid columns="5">
+				<h:outputText value="Lote" />
+				<p:inputText value="#{listaCertificadosMB.lote}" size="15" />
+				<p:commandButton icon="ui-icon-print"
+					value="Imprimir Relação Certificados"
+					title="Imprimir Relação Certificados" ajax="false"
+					alt="Imprimir Relação Certificados"
+					action="#{listaCertificadosMB.imprimirRelacaoCertificado()}"
+					update="@form">
+				</p:commandButton>
+				<p:commandButton icon="ui-icon-print"
+					value="Imprimir Códigos Provisórios de Certificados/Declarações"
+					title="Imprimir Códigos Certificados/Declarações" ajax="false"
+					alt="Imprimir Códigos Certificados/Declarações"
+					action="#{listaCertificadosMB.imprimirCodigosProvisorios()}"
+					update="@form">
+				</p:commandButton>
+				<p:commandButton icon="ui-icon-print"
+					value="Excluir Lote de Certificados"
+					title="Excluir Lote de Certificados" ajax="true"
+					alt="Excluir Lote de Certificados"
+					action="#{listaCertificadosMB.excluirLoteCertificado()}"
+					update=":formTabelaListaCertificados, @form">
+					<p:confirm header="Confirmação" message="Deseja Remover o Lote?" />
+				</p:commandButton>
+
+
+
+
+			</h:panelGrid>
+		</h:form>
+		<br />
+		<br />
+
+		<h:form id="formTabelaListaCertificados">
+			<p:messages />
+
+
+			<p:dataTable var="pes"
+				value="#{listaCertificadosMB.listaCertificados}"
+				style="margin-bottom:0" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+				<f:facet name="header">
+					<h:outputText value="Certifiados Cadastrados" />
+				</f:facet>
+
+			
+
+				<p:column headerText="Nome" filterBy="#{pes.pessoa.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.nome}" />
+				</p:column>
+			
+				<p:column headerText="CPF" width="150" filterBy="#{pes.pessoa.cpf}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.cpf}" />
+				</p:column>
+				<p:column headerText="Lote" width="120" filterBy="#{pes.loteCertificado}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.loteCertificado}" />
+				</p:column>
+
+				<p:column headerText="Texto" filterBy="#{pes.texto}"
+					filterMatchMode="contains">
+					<h:outputText escape="false" value="#{pes.texto}" />
+				</p:column>
+
+				<p:column style="width:80px" headerText="Opções">
+					<p:commandButton
+						actionListener="#{listaCertificadosMB.inativarCertificado(pes)}"
+						icon="ui-icon-trash" title="Remover" update="@form" alt="Remover">
+						<p:confirm header="Confirmação"
+							message="Deseja Remover o Certificado?" />
+					</p:commandButton>
+					<br/><br/>
+					
+					<p:commandButton
+						actionListener="#{certificadoMB.editarCertificado(pes)}"
+						oncomplete="PF('dialogEditarCertificado').show()"
+						icon="ui-icon-pincel" title="Alterar Texto"
+						update="formEditarTextoCertificado" alt="Alterar Texto">
+					</p:commandButton>
+<br/>
+					<br/>
+					
+					<p:commandButton icon="ui-icon-print" title="Emitir" update="@form"
+						ajax="false" alt="Emitir"
+						actionListener="#{pesquisaCertificadoMB.chamarRelatorio(pes)}">
+
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+		<p:dialog appendTo="@(body)"
+			header="Editar Texto Certificado/Declaração"
+			widgetVar="dialogEditarCertificado" modal="true" minHeight="200"
+			width="800">
+			<h:form id="formEditarTextoCertificado">
+
+				<h:outputText value="Quantidade de Horas do Certificado*" />
+
+				<p:inputText size="70" required="true"
+					requiredMessage="Quantidade de horas obrigatório"
+					value="#{certificadoMB.certificadoSelecionadoEditar.quantidadeHoras}" />
+
+				<h:outputText value="Texto Final" />
+				<h:outputText
+					value="Para colar utilize o seguinte recurso do editor:" />
+				<h:graphicImage library="imagens" name="img_salvar.PNG" />
+				<p:inputTextarea rows="10" id="editor1"
+					value="#{certificadoMB.certificadoSelecionadoEditar.texto}"
+					widgetVar="editorWidget122" height="100" style="width:100%" />
+				<br />
+				<p:commandButton value="Finalizar Edição"
+					actionListener="#{certificadoMB.finalizarEdicaoLista()}"
+					oncomplete="PF('dialogEditarCertificado').hide()"
+					update="formTabelaListaCertificados" />
+			</h:form>
+		</p:dialog>
+
+
+
+	</ui:define>
+
+</ui:composition>

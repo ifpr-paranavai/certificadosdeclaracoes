@@ -1,0 +1,52 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http auto-config="true" use-expressions="true">	
+		<intercept-url pattern="/certificados/**" access="hasRole('pessoa')" />
+
+		<access-denied-handler error-page="/negado.jsf" />
+
+		<form-login login-page="/login.jsf"
+			authentication-failure-url="/login.jsf?error=true" />
+	</http>
+
+	<authentication-manager>
+
+		<authentication-provider>
+	<password-encoder hash="bcrypt" />
+			<!-- <user-service> <user name="maria" password="123" authorities="ROLE_ADM" 
+				/> <user name="ana" password="123" authorities="ROLE_VENDEDOR" /> </user-service> -->
+
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="SELECT email as username, 
+                                senha as password, status as enable FROM pessoa WHERE usuarioSistema is true and email=?"
+
+				authorities-by-username-query="select email as username, tipo as authority from   
+                                                           pessoa as p where usuarioSistema is true and p.email=?" />
+		</authentication-provider>
+
+
+
+	</authentication-manager>
+
+	<!--Configuração da fonte de dados -->
+
+	
+		<!--Configuração da fonte de dados -->
+	<beans:bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="url"
+			value="jdbc:mysql://localhost:3306/b3mc4" />
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="username" value="root" />
+<!-- 		<beans:property name="password" value="" /> -->
+		<beans:property name="password" value="" />
+	</beans:bean>
+
+</beans:beans>

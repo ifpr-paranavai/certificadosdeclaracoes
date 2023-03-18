@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2017-04-19T10:41:32 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relacao_certificados" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="2" bottomMargin="20" uuid="b433ca97-5dfc-46c2-8989-dff2a60b6a2a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Certificados"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="Y2VydGlmaWNhZG9zLmNlcnRpZmljYWRvICwzMTcsMCxiODE4NDkwMS04Mzc0LTRmOWQtOWQxMS1m&#xA;OWNkZWIyMGQyYWY7Y2VydGlmaWNhZG9zLnBlc3NvYSAsMjAsMTYzLDYzMGIwMzk0LTNiMjYtNDAw&#xA;ZS1iM2ViLTUwNTA0NjExNTg2YTs="/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="TITULO_EVENTO" class="java.lang.String"/>
+	<parameter name="LOTE" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT cert.idPessoa,
+	pes.id AS idP,
+	pes.nome,
+	cert.numeroRegistro,
+	cert.dataEmissao,
+	cert.autenticacao,
+	cert.id AS idCertificado,
+	cert.tituloEvento,
+	cert.loteCertificado
+FROM certificado as cert INNER JOIN pessoa as pes
+	  ON cert.idPessoa = pes.id 
+	 WHERE cert.status = 1
+	 AND cert.loteCertificado  = $P{LOTE} order by cert.id]]>
+	</queryString>
+	<field name="idPessoa" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroRegistro" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dataEmissao" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="autenticacao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idP" class="java.lang.Long"/>
+	<field name="idCertificado" class="java.lang.Long"/>
+	<field name="tituloEvento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="550" height="30" uuid="c7887a37-2b3f-46e3-b6d5-0233caddcecd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Evento: "+$F{tituloEvento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="d0e2db3a-dbb5-4d4d-8b0d-3d678cc9a27f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="-1" width="160" height="21" uuid="c0f656dd-7431-46c3-9026-7b28ee59f13c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="0" width="75" height="20" uuid="098d20ae-f458-468e-bd5e-082a2f5023f4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Emissão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="-1" width="110" height="21" uuid="87249dc8-cb0d-4c5b-8494-bc6aae6aeeb8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autenticação]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="70" height="20" uuid="5dc7d03b-aaac-4384-8beb-1d7d44ef7335"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{idCertificado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="300" height="20" uuid="9be7e69f-8634-4668-b961-69baea6ee941"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{idPessoa}+" - "+$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="480" y="0" width="75" height="20" uuid="d22de053-c7aa-4376-ad9b-54a02cade42b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dataEmissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="110" height="20" uuid="4aa80637-b066-4faf-a14b-6886dc4823c9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{autenticacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

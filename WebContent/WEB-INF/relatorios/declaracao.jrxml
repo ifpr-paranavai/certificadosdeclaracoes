@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2017-09-29T17:50:42 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cert" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="42" bottomMargin="14" uuid="872a7f44-dba9-456a-ba86-e8219f619c85">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Certificados"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="Y2VydGlmaWNhZG9zLmNlcnRpZmljYWRvIEFTICw2NCw2Miw2NmZiNTY5MC01NWE1LTQ1ODUtYjc4&#xA;My0yOTNiNGIxOTE2OTc7"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="ID_CERTIFICADO" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT a.*, 
+(select nome from pessoa b where a.id_assinatura_1=b.id) as nomeAssinatura1,
+ (select nome from pessoa b where a.id_assinatura_2=b.id) as nomeAssinatura2,
+ (select nome from pessoa b where a.id_responsavel_cadastro=b.id) as nomeResponsavelCadastro 
+ FROM certificado a 
+WHERE 
+	 a.id = $P{ID_CERTIFICADO} 
+	 AND a.status = 1]]>
+	</queryString>
+	<field name="cargaHoraria" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dataEmissao" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroFolha" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroLivro" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numeroRegistro" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcentagemFrequencia" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="texto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idPessoa" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mostrarCpf" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="textoFinal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="textoInicial" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="autenticacao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="atividadesVerso" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="impresso" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="loteCertificado" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tituloEvento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cadastradoPor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="papelAssinatura1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="papelAssinatura2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="papelAssinatura3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="versao" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_assinatura_1" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_assinatura_2" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_assinatura_3" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_responsavel_cadastro" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="papelResponsavelCadastro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nomeAssinatura1" class="java.lang.String"/>
+	<field name="nomeAssinatura2" class="java.lang.String"/>
+	<field name="nomeResponsavelCadastro" class="java.lang.String"/>
+	<field name="informacoesAdicionais" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="644" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="0" y="1" width="478" height="70" uuid="68469884-6d2c-4fb0-8f9c-e2580b362028"/>
+				<imageExpression><![CDATA["fundoDeclaracao.png"]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="171" width="480" height="143" uuid="b2ae64b1-8113-4446-b4f1-1e21580ca6d1"/>
+				<textElement textAlignment="Justified" markup="html">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{texto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="&apos;Paranavaí,&apos; dd &apos;de&apos; MMMM &apos;de&apos; yyyy" isBlankWhenNull="true">
+				<reportElement x="242" y="387" width="242" height="30" uuid="c45043ef-4445-48e0-abaf-4ea9a59fa71b"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataEmissao}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="630" width="542" height="4" isRemoveLineWhenBlank="true" uuid="cc2f1daf-6e4a-4888-b184-7ab9e992fc3f">
+					<printWhenExpression><![CDATA[new Boolean($F{atividadesVerso} == true)]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="ID_CERTIFICADO">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["sub_atividade.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="0" y="102" width="478" height="40" forecolor="#696868" uuid="8be094fa-3a45-428d-8c19-aaa597ebc6a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="25" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="243" y="515" width="241" height="30" uuid="d30069e0-1470-4b85-92c9-8408fde0de13"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAssinatura1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="243" y="545" width="241" height="30" uuid="a3cd68de-1108-4178-bf1b-36943ef93b84"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{papelAssinatura1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="3" y="545" width="240" height="30" uuid="0a114c0a-e164-431c-b435-74cfd490efcf"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{papelAssinatura2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="3" y="515" width="240" height="30" uuid="6e5b0f0f-e6dc-4658-bef7-5e8c33f4ce8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAssinatura2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="170" y="140" width="310" height="30" uuid="5670eff5-c839-4bf7-8d2f-9c996f6a8542"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{informacoesAdicionais}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement mode="Transparent" x="452" y="-40" width="87" height="62" uuid="dc758ec7-49ef-42f9-b025-f84675de6de0"/>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{autenticacao}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="98" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="50" width="390" height="46" uuid="ed2b8cd2-049b-41fe-aaf4-9287412a3308"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Verificar a autenticidade do documento: http://paranavai.ifpr.edu.br / Código de autenticação: " + $F{autenticacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="1" y="10" width="483" height="50" uuid="7c7f7e7e-98f1-4e9c-bbc0-004258bd9700"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["<b>Registro:</b> "+$F{id} +"<br/><b>Responsável:</b> "+$F{nomeResponsavelCadastro} +" / "+$F{papelResponsavelCadastro}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Right" vAlign="Bottom">
+				<reportElement x="390" y="41" width="120" height="54" uuid="9f36eb7c-f7a2-465b-9f01-dec6f86fb02f"/>
+				<imageExpression><![CDATA["cedi.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

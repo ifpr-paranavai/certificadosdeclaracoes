@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Emissão de Certificados/Declarações Online</title>
+		</f:facet>
+
+		<!-- Bootstrap Core CSS -->
+		<link href="resources/vendor/bootstrap/css/bootstrap.min.css"
+			rel="stylesheet"></link>
+		<link href="resources/vendor/font-awesome/css/font-awesome.min.css"
+			rel="stylesheet" type="text/css"></link>
+		<link
+			href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+			rel='stylesheet' type='text/css'></link>
+		<link
+			href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+			rel='stylesheet' type='text/css'></link>
+
+
+		<link href="resources/vendor/magnific-popup/magnific-popup.css"
+			rel="stylesheet"></link>
+
+
+		<link href="resources/css/creative.min.css" rel="stylesheet"></link>
+
+		<!-- 		<link type="text/css" rel="stylesheet" -->
+		<!-- 			href="#{request.contextPath}/resources/css/default.css" /> -->
+		<!-- 		<link type="text/css" rel="stylesheet" -->
+		<!-- 			href="#{request.contextPath}/css/syntaxhighlighter.css" /> -->
+
+		<link href="resources/css/rodape.css" rel="stylesheet"></link>
+
+		<style type="text/css">
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+</style>
+	</h:head>
+
+	<h:body>
+
+		<nav class="navbar navbar-default">
+		<div class="container-fluid" style="margin-top: 10px;">
+			<div class="navbar-header" style="min-height: 100px;">
+				<img src="resources/img/paranavai-vertical.png"
+					style="max-height: 85px;" alt="Logo IF" class="img-responsive" />
+			</div>
+
+		</div>
+		</nav>
+
+		<!-- INICIO AJAX STATUS -->
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:outputText value="Aguarde......" />
+		</p:dialog>
+		<!-- 		FIM AJAX STATUS -->
+
+		<p:tabView>
+
+
+			<p:tab title="Emitir Certificados/Declarações">
+
+				<h:form>
+				
+					<p:messages />
+					<h:panelGrid columns="1">
+						
+						<h:outputText value="CPF*:" />
+						<p:inputMask mask="999.999.999-99" value="#{pesquisaCertificadoMB.cpf}" size="40"
+							style="margin-bottom:15px" />
+						<h:outputText value="" />
+						<p:commandButton value="Pesquisar"
+							actionListener="#{pesquisaCertificadoMB.pesquisarCertificados()}"
+							update="@form" />
+					</h:panelGrid>
+					<br />
+					<p:dataTable var="pes"
+						value="#{pesquisaCertificadoMB.listaCertificadosConsultaAluno}"
+						style="margin-bottom:0" rows="20" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10,20,30,50,100"
+						rendered="#{pesquisaCertificadoMB.listaCertificadosConsultaAluno.size()>0}">
+						<f:facet name="header">
+							<h:outputText value="Certificados e Declarações" />
+						</f:facet>
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{pes.pessoa.nome}" />
+						</p:column>
+
+						<p:column headerText="CPF" width="120">
+							<h:outputText value="#{pes.pessoa.cpf}" />
+						</p:column>
+
+						<p:column headerText="Tipo" width="120">
+							<h:outputText value="#{pes.tipo}" />
+						</p:column>
+
+						<p:column headerText="Emitido?" width="100">
+							<h:outputText value="Sim" rendered="#{pes.impresso == true}" />
+							<h:outputText value="Não" rendered="#{pes.impresso != true}" />
+						</p:column>
+
+						<p:column headerText="Certificado/Declaração"
+							filterBy="#{pes.texto}" filterMatchMode="contains">
+							<h:outputText escape="false" value="#{pes.texto}" />
+						</p:column>
+						<p:column style="width:80px" headerText="Emitir">
+
+							<p:commandButton icon="ui-icon-print" title="Emitir"
+								update="@form" ajax="false" alt="Emitir"
+								actionListener="#{pesquisaCertificadoMB.chamarRelatorio(pes)}">
+
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" update="@form" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+
+			</p:tab>
+
+
+			<p:tab title="Verificar Autenticidade">
+				<h:form>
+					<p:messages />
+					<h:panelGrid columns="1">
+						<h:outputText value="Código de Autenticação*:" />
+						<p:inputText style="margin-bottom: 20px;" value="#{pesquisaCertificadoMB.codigoAutenticacao}"
+							size="20" />
+
+
+						<p:commandButton value="Pesquisar"
+							actionListener="#{pesquisaCertificadoMB.pesquisarAutenticacao()}"
+							update="@form" />
+					</h:panelGrid>
+					<br />
+					<p:dataTable var="pes"
+						value="#{pesquisaCertificadoMB.listaCertificadosConsultaAlunoAutenticacao}"
+						style="margin-bottom:0" rows="20" paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="10,20,30,50,100"
+						rendered="#{pesquisaCertificadoMB.listaCertificadosConsultaAlunoAutenticacao.size()>0}">
+						<f:facet name="header">
+							<h:outputText value="Documento Correspondente" />
+						</f:facet>
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{pes.pessoa.nome}" />
+						</p:column>
+
+						<p:column headerText="CPF" width="120">
+							<h:outputText value="#{pes.pessoa.cpf}" />
+						</p:column>
+
+						<p:column headerText="Certificado/Declaração"
+							filterBy="#{pes.texto}" filterMatchMode="contains">
+							<h:outputText escape="false" value="#{pes.texto}" />
+						</p:column>
+						<p:column style="width:80px" headerText="Imprimir">
+
+							<p:commandButton icon="ui-icon-print" title="Imprimir"
+								update="@form" ajax="false" alt="Imprimir"
+								actionListener="#{pesquisaCertificadoMB.chamarRelatorio(pes)}">
+
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" update="@form" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+
+			</p:tab>
+
+			<p:tab title="Incluir Certificado/Declaração">
+				<h:form>
+					<p:messages />
+					<h:panelGrid columns="1">
+						<h:outputText value="CPF*:" />
+						<p:inputText value="#{pesquisaCertificadoMB.cpf}" size="20" />
+						<h:outputText value="Código do Certificado/Declaração*:" />
+						<p:inputText style="margin-bottom: 20px;"
+							value="#{pesquisaCertificadoMB.codigoCertificadoProvisorio}"
+							size="30" />
+
+
+						<p:commandButton value="Incluir"
+							actionListener="#{pesquisaCertificadoMB.incluirCertificadoDeclaracaoProvisoria()}"
+							update="@form">
+							<p:confirm header="Confirmação"
+								message="Deseja Incluir este Código para o CPF Informado? Não é possível desfazer este procedimento!!" />
+						</p:commandButton>
+					</h:panelGrid>
+
+					<br />
+					<h:outputText escape="false"
+						value="#{pesquisaCertificadoMB.textoGerado}" />
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" update="@form" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+
+			</p:tab>
+
+			<p:tab title="Não tem cadastro? Cadastre-se aqui">
+
+				<h:form>
+					<p:messages />
+
+					<h:panelGrid columns="1">
+						<h:outputText value="Nome Completo *" />
+						<span style="color: red; font-weight: bold">SEM ABREVIAÇÕES
+							- Confira seu nome antes de cadastrar</span>
+						<p:inputText value="#{pesquisaCertificadoMB.pessoa.nome}" size="70"
+							required="true" requiredMessage="Informar o Nome!!" />
+
+						<h:outputText value="CPF *" />
+						<p:inputMask value="#{pesquisaCertificadoMB.pessoa.cpf}" mask="999.999.999-99"
+							required="true" requiredMessage="Informar o CPF!!" />
+
+						<h:outputText value="E-mail" />
+						<p:inputText style="margin-bottom: 20px;"
+							value="#{pesquisaCertificadoMB.pessoa.email}" />
+						<h:outputText value="" />
+
+						<p:commandButton value="Salvar o Cadastro" update="@form"
+							actionListener="#{pesquisaCertificadoMB.salvar()}">
+							<p:confirm header="Confirmação"
+								message="Deseja realmente efetivar o cadastro?" />
+						</p:commandButton>
+					</h:panelGrid>
+					<br />
+				</h:form>
+			</p:tab>
+		</p:tabView>
+
+
+
+		<div id="rodape">
+			<label>Sistema desenvolvido por CEDI - IFPR - Campus
+				Paranavaí</label>
+		</div>
+	</h:body>
+
+</f:view>
+</html>
+

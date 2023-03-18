@@ -1,0 +1,615 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	template="../resources/template/template-administrador.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<f:metadata>
+		<f:viewAction action="#{certificadoMB.inicializar()}" />
+	</f:metadata>
+	<ui:define name="conteudo">
+
+		<p:ajaxStatus onstart="PF('statusDialog').show()"
+			onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:outputText style="font-weight:bold"
+				value="Aguarde, realizando operação...." />
+			<br />
+			<center>
+				<p:graphicImage name="img/aguarde.gif" />
+			</center>
+		</p:dialog>
+
+		<h:form id="formCertificado">
+
+			<hr />
+			<h2>
+				<u>Informações Iniciais</u>
+			</h2>
+
+
+			<br />
+			<p:panelGrid columns="2" styleClass="semBorda">
+				<h:outputText value="Tipo do Documento" />
+				<p:selectOneMenu required="true"
+					requiredMessage="Selecione o tipo do documento"
+					value="#{certificadoMB.certificadoSelecionado.tipo}">
+					<f:selectItem itemLabel="CERTIFICADO" itemValue="CERTIFICADO" />
+					<f:selectItem itemLabel="DECLARAÇÃO" itemValue="DECLARAÇÃO" />
+					<f:selectItem itemLabel="MENÇÃO HONROSA" itemValue="MENÇÃO HONROSA" />
+				</p:selectOneMenu>
+
+
+
+
+				<h:outputText value="Título do Evento" />
+				<p:inputText size="70"
+					value="#{certificadoMB.certificadoSelecionado.tituloEvento}" />
+
+				<h:outputText value="Data da Emissão" />
+				<p:calendar
+					value="#{certificadoMB.certificadoSelecionado.dataEmissao}"
+					pattern="dd/MM/yyyy" />
+				<h:outputText value="Mostrar CPF no Documento" />
+				<p:selectOneMenu
+					value="#{certificadoMB.certificadoSelecionado.mostrarCpf}"
+					style="width:125px">
+					<f:selectItem itemLabel="Sim" itemValue="true" />
+					<f:selectItem itemLabel="Não" itemValue="false" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Papel do Responsável pelo Cadastro" />
+				<p:inputText size="70"
+					value="#{certificadoMB.certificadoSelecionado.papelResponsavelCadastro}" />
+
+				<h:outputText value="Informações Adicionais" />
+				<p:inputText size="70"
+					value="#{certificadoMB.certificadoSelecionado.informacoesAdicionais}" />
+
+				<h:outputText value="Atividade Complementar Sugerida" />
+				<p:selectOneMenu
+					value="#{certificadoMB.certificadoSelecionado.atividadeComplementar}"
+					style="width:525px">
+					<f:selectItems
+						value="#{certificadoMB.listaAtividadesComplementares}" var="ac"
+						itemLabel="#{ac}" itemValue="#{ac}" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Quantidade de Horas do Certificado*" />
+				<p:inputText size="70" required="true"
+					requiredMessage="Quantidade de horas obrigatório"
+					value="#{certificadoMB.certificadoSelecionado.quantidadeHoras}" />
+
+			</p:panelGrid>
+			<br />
+			<h2>
+				Texto Inicial
+			</h2>
+
+<!-- 			<h:outputText -->
+<!-- 				value="Para colar utilize o seguinte recurso do editor:" /> -->
+<!-- 			<h:graphicImage library="imagens" name="img_salvar.PNG" /> -->
+
+			<!-- 			<p:editor id="editor" controls="bold italic underline pastetext" -->
+			<!-- 				widgetVar="editorWidget" style="width:100%" height="100" -->
+			<!-- 				value="{certificadoMB.certificadoSelecionado.textoInicial}" /> -->
+
+			<p:inputTextarea rows="5" id="editor" widgetVar="editorWidget"
+				style="width:100%"
+				value="#{certificadoMB.certificadoSelecionado.textoInicial}" />
+			<br />
+
+			<hr />
+			<h2>
+				Pessoas Certificadas
+			</h2>
+
+			<br />
+
+			<p:commandButton value="Pessoas Certificadas - Adicionar"
+				oncomplete="PF('dialogSelecionarPessoas').show()"
+				actionListener="#{certificadoMB.pesquisarPessoas()}"
+				update="formDialogSelecionarPessoas" /> ou
+
+			<p:commandButton value="Adicionar Pessoas de Planilha"
+				oncomplete="PF('dialogSelecionarPessoasEven').show()"
+				update="formDialogSelecionarPessoasEven" />
+
+			<br />
+			<br />
+			<h:outputText value="(Para cada pessoa será gerado um certificado)" />
+			<br />
+			<!-- 					<h:form id="formPessoasSelecionadasCertificados"> -->
+			<p:dataTable id="tabelaPessoasSelecionadasCertificados" var="pes"
+				rows="10" value="#{certificadoMB.listaCertificadosProvisorio}"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" editable="true" editMode="cell">
+
+				<!-- 							<p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}" -->
+				<!-- 								update=":form:msgs" /> -->
+
+				<p:column headerText="Nome" filterBy="#{pes.pessoa.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.nome}  #{pes.pessoa.email}" />
+				</p:column>
+
+				<p:column headerText="CPF" filterBy="#{pes.pessoa.cpf}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.cpf}" />
+				</p:column>
+
+				<p:column headerText="Remover">
+					<p:commandButton
+						actionListener="#{certificadoMB.removerCertificadosProvisorios(pes)}"
+						icon="ui-icon-trash" title="Remover"
+						update="tabelaPessoasSelecionadasCertificados" alt="Remover">
+						<p:confirm header="Confirmação" message="Deseja Remover?" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+
+
+			<hr />
+			<h2>
+				Texto Final
+			</h2>
+
+
+<!-- 			<h:outputText -->
+<!-- 				value="Para colar utilize o seguinte recurso do editor:" /> -->
+<!-- 			<h:graphicImage library="imagens" name="img_salvar.PNG" /> -->
+			<p:inputTextarea id="editor1" rows="5"
+				value="#{certificadoMB.certificadoSelecionado.textoFinal}"
+				widgetVar="editorWidget1" style="width:100%" />
+			<br />
+
+			<br />
+			<!-- 					<h:outputText value="Atividades - Verso do Certificado/Declaração" /> -->
+
+			<!-- 										</h:panelGrid> -->
+			<!-- 					<h:panelGrid columns="3"> -->
+			<!-- 						<h:outputText value="Descrição da Atividade" /> -->
+			<!-- 						<h:outputText value="Nome do Responsável" /> -->
+			<!-- 						<h:outputText value="Carga Horária" /> -->
+
+			<!-- 						<p:inputText -->
+			<!-- 							value="{certificadoMB.atividadeSelecionada.atividade}" size="40" /> -->
+			<!-- 						<p:inputText -->
+			<!-- 							value="{certificadoMB.atividadeSelecionada.responsavel}" -->
+			<!-- 							size="40" /> -->
+			<!-- 						<p:inputText -->
+			<!-- 							value="{certificadoMB.atividadeSelecionada.cargaHoraria}" -->
+			<!-- 							size="40" /> -->
+
+			<!-- 						<p:commandButton value="Adicionar" update="@form" -->
+			<!-- 							actionListener="{certificadoMB.adicionaAtividades()}" /> -->
+			<!-- 					</h:panelGrid> -->
+			<!-- 					<br /> -->
+
+			<!-- 			<p:dataTable var="ati" value="{certificadoMB.listaAtividades}" -->
+			<!-- 				style="margin-bottom:0" rows="20"> -->
+			<!-- 				<f:facet name="header"> -->
+			<!-- 					<h:outputText value="ATividades" /> -->
+			<!-- 				</f:facet> -->
+
+			<!-- 				<p:column headerText="Descrição"> -->
+			<!-- 					<h:outputText value="#{ati.atividade}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 				<p:column headerText="Responsável"> -->
+			<!-- 					<h:outputText value="#{ati.responsavel}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 				<p:column headerText="Carga Horária"> -->
+			<!-- 					<h:outputText value="#{ati.cargaHoraria}" /> -->
+			<!-- 				</p:column> -->
+
+			<!-- 				<p:column headerText="Remover"> -->
+
+
+			<!-- 					<p:commandButton -->
+			<!-- 						actionListener="{certificadoMB.removerAtividade(ati)}" -->
+			<!-- 						icon="ui-icon-trash" title="Remover" update="@form" alt="Remover"> -->
+			<!-- 						<p:confirm header="Confirmação" message="Deseja Remover?" /> -->
+			<!-- 					</p:commandButton> -->
+			<!-- 				</p:column> -->
+			<!-- 			</p:dataTable> -->
+
+			<hr />
+			<h2>
+				Assinaturas
+			</h2>
+			<br />
+			<h:outputText value="Assinatura(s)" />
+			<br />
+			<p:messages />
+			<p:panelGrid columns="2" styleClass="semBorda">
+
+				<p:outputLabel value="Responsável Assinatura 1" />
+				<h:outputText value="Descrição do Papel (Diretor, Coordenador...)" />
+
+				
+				 <p:autoComplete queryDelay="500" id="selectAssinatura1" value="#{certificadoMB.certificadoSelecionado.responsavelAssinatura1}" size="50"
+                                completeMethod="#{certificadoMB.buscarPessoaNomeCpf}"
+                                var="pes" itemLabel="#{pes.nomeCpf}" itemValue="#{pes}"
+                                converter="#{converterPessoa}" forceSelection="true" scrollHeight="250"/>
+                                
+
+				<p:inputText
+					value="#{certificadoMB.certificadoSelecionado.papelAssinatura1}"
+					size="50" />
+
+				<h:outputText style="color:white" value="..." />
+				<h:outputText style="color:white" value="..." />
+
+				<p:outputLabel value="Responsável Assinatura 2" />
+				<h:outputText value="Descrição do Papel (Diretor, Coordenador...)" />
+
+				
+					 <p:autoComplete queryDelay="500" id="selectAssinatura2" value="#{certificadoMB.certificadoSelecionado.responsavelAssinatura2}" size="50"
+                                completeMethod="#{certificadoMB.buscarPessoaNomeCpf}"
+                                var="pes" itemLabel="#{pes.nomeCpf}" itemValue="#{pes}"
+                                converter="#{converterPessoa}" forceSelection="true" scrollHeight="250"/>
+                                
+				
+
+				<p:inputText
+					value="#{certificadoMB.certificadoSelecionado.papelAssinatura2}"
+					size="50" />
+
+				<h:outputText style="color:white" value="..." />
+				<h:outputText style="color:white" value="..." />
+
+
+			</p:panelGrid>
+			<br />
+
+
+
+
+			<hr />
+			<h2>
+				<u>Visão Geral/Gerar</u>
+			</h2>
+
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:outputText value="#{certificadoMB.certificadoSelecionado.tipo}" />
+				<br />
+				<h:outputText escape="false"
+					value="#{certificadoMB.certificadoSelecionado.textoInicial} xxxxxx #{certificadoMB.certificadoSelecionado.textoFinal}" />
+				<br />
+				<br />
+				<h:panelGrid columns="2">
+
+					<p:panel style="text-align:center">
+						<h:panelGrid columns="1" style="width:50%">
+							<h:outputText
+								value="#{certificadoMB.certificadoSelecionado.responsavelAssinatura2.nome}" />
+							<h:outputText
+								value="#{certificadoMB.certificadoSelecionado.papelAssinatura2}" />
+						</h:panelGrid>
+					</p:panel>
+
+					<p:panel style="text-align:center">
+						<h:panelGrid columns="1" style="width:50%">
+							<h:outputText
+								value="#{certificadoMB.certificadoSelecionado.responsavelAssinatura1.nome}" />
+							<h:outputText
+								value="#{certificadoMB.certificadoSelecionado.papelAssinatura1}" />
+						</h:panelGrid>
+					</p:panel>
+				</h:panelGrid>
+
+
+
+				<br />
+
+				<br />
+
+				<p:commandButton
+					action="#{certificadoMB.inserirCertificadosProvisorios()}"
+					value="Gerar Certificados/Declarações"
+					title="Gerar Certificados/Declarações" update="@form"
+					alt="Gerar Certificados/Declarações">
+					<p:confirm header="Confirmação"
+						message="Deseja Gerar os Certificados?" />
+				</p:commandButton>
+			</h:panelGrid>
+
+
+			<!-- 		INÍCIO DA TABELA DOS CERTIFICADOS PROVISÓRIOS -->
+			<!-- 		<h:form id="formMostrarTabelaCertificados"> -->
+
+
+
+			<p:dataTable var="pes"
+				value="#{certificadoMB.listaCertificadosProvisorio}"
+				style="margin-bottom:0" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100"
+				rendered="#{certificadoMB.mostrarTabelaCertificados}">
+				<f:facet name="header">
+					<h:outputText value="Certificados " />
+				</f:facet>
+
+
+				<p:column headerText="Nome" filterBy="#{pes.pessoa.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.nome}" />
+				</p:column>
+
+				<p:column headerText="CPF" width="120" filterBy="#{pes.pessoa.cpf}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pes.pessoa.cpf}" />
+				</p:column>
+
+
+				<p:column headerText="Texto" filterBy="#{pes.texto}"
+					filterMatchMode="contains">
+					<h:outputText escape="false" value="#{pes.texto}" />
+				</p:column>
+
+				<p:column headerText="Horas" filterBy="#{pes.quantidadeHoras}"
+					filterMatchMode="contains">
+					<h:outputText escape="false" value="#{pes.quantidadeHoras}" />
+				</p:column>
+
+				<p:column style="width:80px" headerText="Alterar Texto">
+					<p:commandButton
+						actionListener="#{certificadoMB.editarCertificado(pes)}"
+						oncomplete="PF('dialogEditarCertificado').show()"
+						icon="ui-icon-pincel" title="Alterar Texto"
+						update="formEditarTextoCertificado" alt="Alterar Texto">
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+
+
+
+			<!-- FIM DA TABELA DOS CERTIFICADOS PROVISÓRIOS -->
+			<br />
+
+			<p:commandButton action="#{certificadoMB.inserirCertificados()}"
+				value="Finalizar Certificados/Declarações"
+				title="Finalizar Certificados/Declarações"
+				alt="Finalizar Certificados/Declarações"
+				disabled="#{certificadoMB.mostrarTabelaCertificados == false}">
+
+				<p:confirm header="Confirmação"
+					message="Deseja Gerar os Certificados?" />
+			</p:commandButton>
+
+
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+
+		</h:form>
+
+
+
+		<p:dialog appendTo="@(body)" header="Pessoas Certificadas"
+			widgetVar="dialogSelecionarPessoas" modal="true" height="500"
+			width="800">
+			<h:form id="formDialogSelecionarPessoas">
+				CPFs<br/>
+				<p:inputTextarea autoResize="false" rows="5" cols="100"
+					value="#{certificadoMB.cpfs}" />
+				<br />
+				<br />
+				<p:commandButton update="@form" value="Pesquisar por CPFs"
+					actionListener="#{certificadoMB.pesquisarCpf()}" />
+				<br />
+				<br />
+				OU, pesquisar por nome
+				<br />
+				<!-- 				<br /> -->
+
+				<!-- 				<p:commandButton update="@form" -->
+				<!-- 					value="Listar Todos/Limpar Selecionados" -->
+				<!-- 					actionListener="{certificadoMB.pesquisarPessoas()}"> -->
+				<!-- 					<p:confirm header="Confirmação" -->
+				<!-- 						message="Deseja Buscar Todos e Limpar a todos Selecionados?" /> -->
+				<!-- 				</p:commandButton> -->
+				<br />
+				<!-- 				<h:outputText -->
+				<!-- 					value="Os CPFs que continuarem no campo de texto acima não foram encontrados no banco de dados." /> -->
+
+<!-- 				<p:selectOneMenu value="#{certificadoMB.pessoaSelecionada}" -->
+<!-- 					converter="#{converterPessoa}" panelStyle="width:180px" -->
+<!-- 					effect="fade" var="t" style="width:360px" filter="true" -->
+<!-- 					filterMatchMode="startsWith"> -->
+<!-- 					<f:selectItems value="#{certificadoMB.listaPessoas}" var="pes" -->
+<!-- 						itemLabel="#{pes.nome}" itemValue="#{pes}" /> -->
+<!-- 					<p:column> -->
+<!-- 						<h:outputText value="#{t.nome}-#{t.cpf}" /> -->
+<!-- 					</p:column> -->
+<!-- 				</p:selectOneMenu> -->
+
+ <p:autoComplete queryDelay="500" id="pojo" value="#{certificadoMB.pessoaSelecionada}" size="50"
+                                completeMethod="#{certificadoMB.buscarPessoaNomeCpf}"
+                                var="pes" itemLabel="#{pes.nomeCpf}" itemValue="#{pes}"
+                                converter="#{converterPessoa}" forceSelection="true" scrollHeight="250"/>
+                                
+				<p:spacer height="5"></p:spacer>
+
+				<p:commandButton update="pojo, @form, :formCertificado"
+					value="Adicionar Pessoa"
+					actionListener="#{certificadoMB.adicionarPessoa()}">
+				</p:commandButton>
+				<p:spacer height="10"></p:spacer>
+
+				<p:commandButton value="Fechar" styleClass="ui-priority-primary"
+					oncomplete="PF('dialogSelecionarPessoas').hide()"
+					update=":formCertificado" />
+				<br />
+				<br />
+
+				<p:dataTable id="tabelaPessoasSelecionadasCertificados" var="pes"
+					rows="10" value="#{certificadoMB.listaCertificadosProvisorio}"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" editable="true" editMode="cell">
+
+					<!-- 							<p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}" -->
+					<!-- 								update=":form:msgs" /> -->
+
+					<p:column headerText="Nome" filterBy="#{pes.pessoa.nome}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.pessoa.nome}" />
+					</p:column>
+
+					<p:column headerText="Curso/Turma"
+						filterBy="#{pes.pessoa.curso} or #{pes.pessoa.turma}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.pessoa.curso}-#{pes.pessoa.turma}" />
+					</p:column>
+					<p:column headerText="CPF" width="120" filterBy="#{pes.pessoa.cpf}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.pessoa.cpf}" />
+					</p:column>
+
+					<p:column headerText="Remover">
+						<p:commandButton
+							actionListener="#{certificadoMB.removerCertificadosProvisorios(pes)}"
+							icon="ui-icon-trash" title="Remover"
+							update="tabelaPessoasSelecionadasCertificados" alt="Remover">
+							<p:confirm header="Confirmação" message="Deseja Remover?" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+
+
+
+			</h:form>
+		</p:dialog>
+
+		<p:dialog appendTo="@(body)" header="Pessoas Certificadas"
+			widgetVar="dialogSelecionarPessoasEven" modal="true" minHeight="200"
+			width="900">
+			<h:form id="formDialogSelecionarPessoasEven">
+
+				<h3>
+					Copie de uma planilha as seguintes informações: Nome (obrigatório),
+					CPF (obrigatório), email (opcional), obrigatoriamente, nesta
+					sequência. Caso a pessoa não esteja cadastrada, o sistema fará isso
+					automaticamente. <a style="color: #337ab7;" target="_blank"
+						href="../exemplo_planilha.PNG">Exemplo de Planilha</a>
+				</h3>
+				<p:inputTextarea autoResize="false" rows="10" cols="120"
+					value="#{certificadoMB.dadosEven}" />
+				<br />
+				<br />
+				<p:commandButton update="@form, :formCertificado"
+					value="Carregar dados do campos acima"
+					actionListener="#{certificadoMB.carregarDadosEven()}" />
+				<p:spacer height="10"></p:spacer>
+
+				<p:commandButton value="Fechar" styleClass="ui-priority-primary"
+					alt="Faça a confirmação carregar os dados"
+					oncomplete="PF('dialogSelecionarPessoasEven').hide()"
+					update="@form :formCertificado" />
+				<br />
+
+				<br />
+				<h:outputText escape="false" value="#{certificadoMB.cpfs}" />
+
+
+				<p:dataTable id="tabelaPessoasSelecionadasCertificados" var="pes"
+					rows="10" value="#{certificadoMB.listaCertificadosProvisorio}"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15" editable="true" editMode="cell">
+
+					<!-- 							<p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}" -->
+					<!-- 								update=":form:msgs" /> -->
+
+					<p:column headerText="Nome" filterBy="#{pes.pessoa.nome}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.pessoa.nome}  #{pes.pessoa.email}" />
+					</p:column>
+
+					<p:column headerText="CPF" filterBy="#{pes.pessoa.cpf}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pes.pessoa.cpf}" />
+					</p:column>
+
+					<p:column headerText="Remover">
+						<p:commandButton
+							actionListener="#{certificadoMB.removerCertificadosProvisorios(pes)}"
+							icon="ui-icon-trash" title="Remover"
+							update="tabelaPessoasSelecionadasCertificados" alt="Remover">
+							<p:confirm header="Confirmação" message="Deseja Remover?" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+
+
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog appendTo="@(body)"
+			header="O que são certificados provisórios?"
+			widgetVar="dialogInformacaoProvisorio" modal="true" minHeight="200"
+			width="800">
+
+			<h3>Utilize esta funcionalidade para gerar certificados ou
+				declarações com códigos provisórias que poderão ser repassados para
+				os participantes de uma determinada atividade. Com os códigos
+				gerados os próprios usuários poderão vincular o seu CPF a um
+				determinado certificado ou declaração.</h3>
+			<h4>A impressão dos códigos pode ser feita na página de
+				pesquisa, utilizando o botão "Imprimir Códigos
+				Certificados/Declarações" e o vinculo com o CPF é feito na página de
+				EMITIR/VERIFICAR AUTENTICIDADE</h4>
+			<h4>Dúvidas?? frank.willian@ifpr.edu.br</h4>
+		</p:dialog>
+
+		<p:dialog appendTo="@(body)"
+			header="Editar Texto Certificado/Declaração"
+			widgetVar="dialogEditarCertificado" modal="true" minHeight="200"
+			width="800">
+			<h:form id="formEditarTextoCertificado">
+
+				<h:outputText value="Quantidade de Horas do Certificado*" />
+
+				<p:inputText size="70" required="true"
+					requiredMessage="Quantidade de horas obrigatório"
+					value="#{certificadoMB.certificadoSelecionadoEditar.quantidadeHoras}" />
+
+				<h:outputText value="Texto Final" />
+				<h:outputText
+					value="Para colar utilize o seguinte recurso do editor:" />
+				<h:graphicImage library="imagens" name="img_salvar.PNG" />
+				<p:inputTextarea rows="10" id="editor1"
+					value="#{certificadoMB.certificadoSelecionadoEditar.texto}"
+					widgetVar="editorWidget122" height="100" style="width:100%" />
+				<br />
+				<p:commandButton value="Finalizar Edição"
+					actionListener="#{certificadoMB.finalizarEdicao()}"
+					oncomplete="PF('dialogEditarCertificado').hide()"
+					update=":formCertificado" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="ERRO" widgetVar="myDialogVar">
+			<h:outputText
+				value="Para colar utilize o seguinte recurso do editor: " />
+			<h:graphicImage library="imagens" name="img_salvar.PNG" />
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>

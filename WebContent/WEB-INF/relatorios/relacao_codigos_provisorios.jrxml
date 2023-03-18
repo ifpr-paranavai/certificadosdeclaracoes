@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2018-11-09T14:03:30 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relacao_codigos_provisorios" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="287" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="a99f1370-53a3-422c-9534-b753a268d2a5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CopyOfCertificados"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="LOTE" class="java.lang.Long"/>
+	<parameter name="TITULO_EVENTO" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT cert.codigoCertificadoProvisorio,
+	cert.loteCertificado,
+	cert.tituloEvento
+FROM certificado cert
+	 WHERE cert.status = 1
+	 AND cert.loteCertificado  = $P{LOTE} order by cert.id]]>
+	</queryString>
+	<field name="codigoCertificadoProvisorio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="loteCertificado" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tituloEvento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="550" height="30" uuid="1e161d8f-3d57-40b4-ac5d-af358400076c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Códigos Provisórios. Evento: "+$P{TITULO_EVENTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="112" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="285" height="20" isPrintWhenDetailOverflows="true" uuid="545e3976-c6f7-4eb7-a597-c31d18d19750">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoCertificadoProvisorio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="285" height="20" uuid="deac420c-3ada-4092-9b79-6e157bba1b1f">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tituloEvento}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="0" y="40" width="284" height="67" uuid="a132804e-fea1-43da-9dce-69eaea24f6e8">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitmargin" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{codigoCertificadoProvisorio}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<frame>
+				<reportElement x="0" y="0" width="285" height="109" uuid="8111fa21-1d4d-4aa4-aee7-166e6c92c856">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="210" y="72" width="72" height="28" uuid="938c1a39-d3ff-4e9f-ba48-4f8fc22ed925"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Software Desenvolvido pelo CEDI]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
