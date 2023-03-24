@@ -1,2 +1,2 @@
 "# certificadosdeclaracoes" 
-Como fazer contrinuições: https://imasters.com.br/desenvolvimento/como-contribuir-com-um-projeto-no-github
+Como fazer contrinuições: https://docs.github.com/en/get-started/quickstart/contributing-to-projects
