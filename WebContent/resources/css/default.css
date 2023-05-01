@@ -259,4 +259,7 @@ img.right {
     font-size: 12px !important;
 }
 
+.navbar-nav .fa-envelope {
+  margin-top: 5px;
+}
 
