@@ -33,7 +33,8 @@
 					alt="Excluir Lote de Certificados"
 					action="#{listaCertificadosMB.excluirLoteCertificado()}"
 					update=":formTabelaListaCertificados, @form">
-					<p:confirm header="Confirmação" message="Deseja Remover o Lote?" />
+					<p:confirm header="Confirmação" message="Deseja Remover o Lote Nº #{listaCertificadosMB.getLote()}?
+					 #{listaCertificadosMB.getListaCertificadosText()}" />
 				</p:commandButton>
 
 

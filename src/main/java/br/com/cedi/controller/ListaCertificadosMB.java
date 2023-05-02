@@ -131,7 +131,7 @@ public class ListaCertificadosMB implements Serializable{
 	
 	public void excluirLoteCertificado() {
 		List<Certificado> lcc = certificadoDAO.listarCondicao("loteCertificado=" + getLote());
-
+		Long lote = getLote();
 		System.out.println(lcc.size());
 		if (lcc.size() > 0) {
 			for(Certificado c:lcc){
@@ -159,6 +159,17 @@ public class ListaCertificadosMB implements Serializable{
 
 	public List<Certificado> getListaCertificados() {
 		return listaCertificados;
+	}
+	
+	public String getListaCertificadosText() {
+		 StringBuilder stringBuilder = new StringBuilder();
+	        for (Certificado certificado : listaCertificados) {
+	            stringBuilder.append("Certificado ID: ").append(certificado.getId())
+	                       .append("\n");
+	        }
+
+	        String certificadosString = stringBuilder.toString();
+		return certificadosString;
 	}
 
 	public void setListaCertificados(List<Certificado> listaCertificados) {
