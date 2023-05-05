@@ -107,38 +107,26 @@ public class PessoaMB implements Serializable {
 				pessoa.setStatus(true);
 				pessoa.setTipo("pessoa");
 				pessoa.setNome(pessoa.getNome().toUpperCase());
-				// pessoa.setSenha(CriptografiaSenha.criptografar(pessoa.getSenha()));
-				if (ValidaCPF.isCPF(pessoa.getCpf())) {
-//					List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "'");
-//					if (lp.size() > 0) {
-//						FacesContext context = FacesContext.getCurrentInstance();
-//						context.addMessage(null, new FacesMessage("CPF já cadastrado: " + lp.get(0).getNome()));
-//					} else {
-//						this.pessoaService.salvar(pessoa);
-//					}
-					if(verificaCadastrar()){
-						this.pessoaService.salvar(pessoa);
-					}
-
-				} else {
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage("CPF Inválido!!"));
-				}
-				// FacesContext context = FacesContext.getCurrentInstance();
-				// context.addMessage(null, new FacesMessage(Mensagem.SUCESSO));
-			} else {
-				// pessoa.setSenha(CriptografiaSenha.criptografar(pessoa.getSenha()));
-
-				if (ValidaCPF.isCPF(pessoa.getCpf())) {
-					pessoaService.salvar(pessoa);
-				} else {
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage("CPF Inválido!!"));
-				}
-				// FacesContext context = FacesContext.getCurrentInstance();
-				// context.addMessage(null, new FacesMessage(Mensagem.SUCESSO));
 			}
-
+			// pessoa.setSenha(CriptografiaSenha.criptografar(pessoa.getSenha()));
+			if (ValidaCPF.isCPF(pessoa.getCpf())) {
+//				List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "'");
+//				if (lp.size() > 0) {
+//					FacesContext context = FacesContext.getCurrentInstance();
+//					context.addMessage(null, new FacesMessage("CPF já cadastrado: " + lp.get(0).getNome()));
+//				} else {
+//					this.pessoaService.salvar(pessoa);
+//				}
+				if(verificaCadastrar()){
+					this.pessoaService.salvar(pessoa);
+				}
+				
+			} else {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("CPF Inválido!!"));
+			}
+			// FacesContext context = FacesContext.getCurrentInstance();
+			// context.addMessage(null, new FacesMessage(Mensagem.SUCESSO));
 		} catch (Exception e) {
 			// FacesContext context = FacesContext.getCurrentInstance();
 			// context.addMessage(null, new FacesMessage(Mensagem.ERRO));
@@ -149,14 +137,14 @@ public class PessoaMB implements Serializable {
 
 	private boolean verificaCadastrar(){
 		List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "' or cpf='"+pessoa.getCpf().replace(".", "").replace("-", "").trim()+"'");
-		if (lp.size() > 0) {
+		if (lp.size() > 0 && lp.get(0).getId().longValue() != pessoa.getId().longValue()) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("CPF já cadastrado: " + lp.get(0).getNome()));
 			return false;
 		} else if(pessoa.getEmail().length()>2){
 			
 			lp = pessoaDAO.listarCondicao("email='" + pessoa.getEmail().trim() + "'");
-			if (lp.size() > 0) {
+			if (lp.size() > 0 && lp.get(0).getId().longValue() != pessoa.getId().longValue()) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("E-mail já cadastrado: " + lp.get(0).getNome()));
 				return false;
