@@ -46,8 +46,9 @@
 
 			<p:panelGrid columns="2" styleClass="semBorda">
 				<h:outputText value="Nome *" />
-				<p:inputText value="#{pessoaMB.pessoa.nome}" size="70"
+				<p:inputText id="nomeInput" value="#{pessoaMB.pessoa.nome}" size="70"
 					required="true" requiredMessage="Informar o Nome!!" />
+
 
 				<h:outputText value="CPF *" />
 				<p:inputMask value="#{pessoaMB.pessoa.cpf}" mask="999.999.999-99"
@@ -87,10 +88,12 @@
 
 
 					<p:commandButton title="Alterar" alt="Alterar"
-						update=":formFormularioPessoa" icon="ui-icon-pencil">
+						update=":formFormularioPessoa" icon="ui-icon-pencil"
+						oncomplete="document.getElementById('formFormularioPessoa:nomeInput').focus()">
 						<f:setPropertyActionListener value="#{pes}"
 							target="#{pessoaMB.pessoa}" />
 					</p:commandButton>
+
 
 					<p:commandButton actionListener="#{pessoaMB.inativar(pes)}"
 						icon="ui-icon-trash" title="Inativar"
