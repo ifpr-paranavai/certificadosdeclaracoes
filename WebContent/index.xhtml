@@ -1,130 +1,333 @@
-<!DOCTYPE html>
-<html>
-<title>Certificados e Declarações Online</title>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
-body, html {
-  height: 100%;
-  line-height: 1.8;
+<f:view contentType="text/html">
+	<h:head>
+		<link href="resources/vendor/bootstrap/css/bootstrap.min.css"
+			rel="stylesheet"></link>
+		<link href="resources/vendor/font-awesome/css/font-awesome.min.css"
+			rel="stylesheet" type="text/css"></link>
+		<link
+			href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+			rel='stylesheet' type='text/css'></link>
+		<link
+			href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+			rel='stylesheet' type='text/css'></link>
+		<link
+			href="https://fonts.googleapis.com/css?family=Roboto:400,500,700"
+			rel="stylesheet" type='text/css' />
+		<link href="resources/css/default.css" rel="stylesheet"
+			type="text/css"></link>
+		<link href="resources/vendor/magnific-popup/magnific-popup.css"
+			rel="stylesheet"></link>
+
+		<link href="resources/css/creative.min.css" rel="stylesheet"></link>
+
+		<!-- 		<link type="text/css" rel="stylesheet" -->
+		<!-- 			href="#{request.contextPath}/resources/css/default.css" /> -->
+		<!-- 		<link type="text/css" rel="stylesheet" -->
+		<!-- 			href="#{request.contextPath}/css/syntaxhighlighter.css" /> -->
+
+		<link href="resources/css/rodape.css" rel="stylesheet"></link>
+
+		<style type="text/css">
+@import
+	url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css")
+	;
+/* coloque aqui seu código CSS personalizado */
+.navbar-nav i {
+	margin-top: 5px;
 }
 
-/* Full height image header */
-.bgimg-1 {
-  background-position: center;
-  background-size: cover;
-  background-image: url("resources/img/mac.jpg");
-  min-height: 100%;
-}
-
-.w3-bar .w3-button {
-  padding: 16px;
+.roboto {
+	font-family: 'Roboto', sans-serif;
 }
 </style>
-<body>
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="#home" class="w3-bar-item w3-button w3-wide"><img
-					src="resources/img/paranavai-vertical.png"
-					style="max-height: 50px;" alt="Logo IF"
-					class="img-responsive" /></a>
-    <!-- Right-sided navbar links -->
-    <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button">SOBRE</a>
-      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTATO</a>
-    </div>
-    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+	</h:head>
+	<h:body>
+		<header> <nav class="navbar navbar-expand-lg navbar-light"
+			style="background: linear-gradient(to right, #34b984, #2f9e41);">
 
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
-      <i class="fa fa-bars"></i>
-    </a>
-  </div>
-</div>
+		<div class="container d-flex">
+			<div class="navbar-brand ml-auto">
+				<div class="d-flex align-items-right">
+					<img src="resources/img/paranavai-vertical.png"
+						style="max-height: 50px;" alt="Logo IF" class="img-responsive"></img>
+				</div>
 
-<!-- Sidebar on small screens when clicking the menu icon -->
-<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Fechar ×</a>
-  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">SOBRE</a>
-  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTATO</a>
-</nav>
+			</div>
 
-<!-- Header with full-height image -->
-<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
-  <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-hide-small">Fácil e Rápido</span><br/>
-   <span class="w3-large">Consulte seus certicados e declarações emitidos pelo IFPR Campus Paranavaí</span>
-    <p><a href="verificar.jsf" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">ACESSAR</a></p>
-  </div> 
-  
-</header>
-
-<!-- About Section -->
-<div class="w3-container" style="padding:128px 16px" id="about">
-  <h3 class="w3-center">SOBRE ESTE SISTEMA</h3>
-  <p class="w3-center w3-large"></p>
-  <div class="w12-row-padding w12-center" style="margin-top:64px">
-    <div class="w12-quarter">
-    
-      <p class="w3-large">Este sistema foi desenvolvido no Programa CEDI (Centro de Desenvolvimento em Informática) do IFPR Campus Paranavaí. Seu principal objetivo é otimizar o processo de confecção e geração de certificados e declarações, atendendo a comunidade interna e externa.</p>
-     
-    </div>
-   
-  </div>
-</div>
-
-<!-- Contact Section -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
-  <h3 class="w3-center">CONTATO</h3>
-  <p class="w3-center w3-large">Utilize o e-mail abaixo para entrar em contato com o coordenador do CEDI</p>
-  <div style="margin-top:48px">
-    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Paranavaí, PR</p>
-    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: frank.willian@ifpr.edu.br</p>
-    <br/>
-   
-  
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>Ir para o topo</a>
-
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
- 
-<script>
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
+		</div>
 
 
-// Toggle between showing and hiding the sidebar when clicking the menu icon
-var mySidebar = document.getElementById("mySidebar");
+		<div class="ml-auto">
+			<i class="bi bi-info-square">Sobre</i> <i class="bi bi-info-square">Projeto</i>
+		</div>
 
-function w3_open() {
-  if (mySidebar.style.display === 'block') {
-    mySidebar.style.display = 'none';
-  } else {
-    mySidebar.style.display = 'block';
-  }
-}
 
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-}
-</script>
+		</nav>
+		<div class="navbar-collapse" d="navbarLinks"
+			style="background: linear-gradient(to right, #34b984, #2f9e41);">
+			<div class="row">
+				<div class="col-6 bg-white rounded" onclick=""
+					id="validaSection">
+					<a class="nav-link text-nowrap text-dark text-center roboto" href="#"
+						onclick="emitirSectionFormShow();" id="emitirNavbar">Emitir
+						certificado / Declaração</a>
+				</div>
+				<div class="col-6 rounded" id="emitirSection">
+					<a class="nav-link text-nowrap text-light text-center roboto" href="#"
+						onclick="validaSectionFormShow();" id="validaNavbar">Validar
+						Certificado / Declaração</a>
+				</div>
+			</div>
+		</div>
+		</header>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="Emitir" class="mt-3 setion1 my-1">
+						<h:form>
+							<div class="container mt-5">
+								<div class="row">
+									<div class="col-lg-6 d-lg-block d-sm-none d-md-none">
+										<img src="resources2/img/Paranavaí.png"
+											alt="" style="min-height: 100px;max-height:200px" />
+									</div>
+									<div class="col-lg-6 col-md-12 visible-md">
+										<h3>Emitir Certificados/Declaração</h3>
+										<div class="col-12">
 
-</body>
+											<h:outputText value="CPF*:" />
+											<p:inputMask mask="999.999.999-99"
+												value="#{pesquisaCertificadoMB.cpf}" size="40"
+												style="margin-bottom:15px" placeholder="Digite seu CPF aqui"
+												id="cpf-input" class="col-12" />
+											<h:outputText value="" />
+
+											<p:commandButton value="Pesquisar"
+												actionListener="#{pesquisaCertificadoMB.pesquisarCertificados()}"
+												oncomplete="PF('resultadoDialog').show();"
+												update="resultadoDialog" />
+
+											<p:dialog id="resultadoDialog" header="Resultado da pesquisa"
+												widgetVar="resultadoDialog" modal="true" visible="false">
+												<p:outputPanel autoUpdate="true">
+													<p:messages />
+													<p:dataTable var="pes"
+														value="#{pesquisaCertificadoMB.listaCertificadosConsultaAluno}"
+														style="margin-bottom:0" rows="20" paginator="true"
+														paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+														rowsPerPageTemplate="10,20,30,50,100"
+														rendered="#{pesquisaCertificadoMB.listaCertificadosConsultaAluno.size()>0}">
+														<f:facet name="header">
+															<h:outputText value="Certificados e Declarações" />
+														</f:facet>
+
+														<p:column headerText="Nome">
+															<h:outputText value="#{pes.pessoa.nome}" />
+														</p:column>
+
+														<p:column headerText="CPF" width="120">
+															<h:outputText value="#{pes.pessoa.cpf}" />
+														</p:column>
+
+														<p:column headerText="Tipo" width="120">
+															<h:outputText value="#{pes.tipo}" />
+														</p:column>
+
+														<p:column headerText="Emitido?" width="100">
+															<h:outputText value="Sim"
+																rendered="#{pes.impresso == true}" />
+															<h:outputText value="Não"
+																rendered="#{pes.impresso != true}" />
+														</p:column>
+
+														<p:column headerText="Certificado/Declaração"
+															filterBy="#{pes.texto}" filterMatchMode="contains">
+															<h:outputText escape="false" value="#{pes.texto}" />
+														</p:column>
+														<p:column style="width:80px" headerText="Emitir">
+
+															<p:commandButton icon="ui-icon-print" title="Emitir"
+																update="@form" ajax="false" alt="Emitir"
+																actionListener="#{pesquisaCertificadoMB.chamarRelatorio(pes)}">
+
+															</p:commandButton>
+														</p:column>
+
+													</p:dataTable>
+												</p:outputPanel>
+											</p:dialog>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</h:form>
+					</div>
+				</div>
+				<div class="col-12">
+					<div id="Valida" style="display: none;" class="mt-3 section my-2">
+
+						<h:form>
+							<div class="container mt-5">
+								<div class="row">
+									<div class="col-lg-6 d-lg-block d-sm-none d-md-none">
+										<img src="resources2/img/Paranavaí.png"
+											alt="Certificado-imagem" style="min-height: 100px;max-height:200px" />
+									</div>
+									<div class="col-lg-6 col-md-12 visible-md">
+										<h2 class="roboto">Validar Certificados/Declarações</h2>
+
+										<div>
+											<h:outputText value="Código de Autenticação*:" />
+											<p:inputText style="margin-bottom: 20px;"
+												value="#{pesquisaCertificadoMB.codigoAutenticacao}"
+												size="20" placeholder="Codigo de Autenticação" class="col-12"/>
+
+
+											<p:commandButton value="Pesquisar"
+												actionListener="#{pesquisaCertificadoMB.pesquisarAutenticacao()}"
+												oncomplete="PF('ValidaDialog').show();"
+												update="@form" />
+
+											<p:dialog id="ValidaDialog" header="Resultado da pesquisa"
+												widgetVar="ValidaDialog" modal="true" visible="false">
+												<p:dataTable var="pes"
+													value="#{pesquisaCertificadoMB.listaCertificadosConsultaAlunoAutenticacao}"
+													style="margin-bottom:0" rows="20" paginator="true"
+													paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+													rowsPerPageTemplate="10,20,30,50,100"
+													rendered="#{pesquisaCertificadoMB.listaCertificadosConsultaAlunoAutenticacao.size()>0}">
+													<f:facet name="header">
+														<h:outputText value="Documento Correspondente" />
+													</f:facet>
+
+													<p:column headerText="Nome">
+														<h:outputText value="#{pes.pessoa.nome}" />
+													</p:column>
+
+													<p:column headerText="CPF" width="120">
+														<h:outputText value="#{pes.pessoa.cpf}" />
+													</p:column>
+
+													<p:column headerText="Certificado/Declaração"
+														filterBy="#{pes.texto}" filterMatchMode="contains">
+														<h:outputText escape="false" value="#{pes.texto}" />
+													</p:column>
+													<p:column style="width:80px" headerText="Imprimir">
+
+														<p:commandButton icon="ui-icon-print" title="Imprimir"
+															update="@form" ajax="false" alt="Imprimir"
+															actionListener="#{pesquisaCertificadoMB.chamarRelatorio(pes)}">
+
+														</p:commandButton>
+													</p:column>
+
+												</p:dataTable>
+											</p:dialog>
+											<p:confirmDialog global="true" showEffect="fade"
+												hideEffect="fade">
+												<p:commandButton value="Sim" update="@form" type="button"
+													styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+												<p:commandButton value="Não" type="button"
+													styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+											</p:confirmDialog>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		
+
+
+		<div class="col-12 mt-auto visible-lg">
+			<div id="facilidade" class="mt-3 section2 my-2">
+				<div class="container form-control">
+					<div class="row">
+						<div class="col-12 mt-3">
+							<b>
+								<p class="text-center h1 roboto">É fácil e rápido</p>
+							</b>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<p class="text-center lead display-7 roboto">Consulte seus
+								certificados e declarações emitidos pelo IFPR Campus</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="Sistema"
+			class="mt-4 section3 my-3 mb-3 hidden-md d-sm-none d-md-block">
+			<div class="bs-gray-400 mt">
+				<div class="row">
+					<div class="col-12 mt-3">
+						<p class="text-center h2">O Sistema</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 mt-3">
+						<p class="text-center display-8">Este Sistema foi desenvolvido
+							no Programa CEDI (Centro de Desenvolvimento em Informática) do
+							IFPR Campus Paranavaí. Seu principal objetivo é otimizar o
+							processo de confecção e geração de certificados e declarações,
+							atendendo a comunidade interna e externa.</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		
+
+		<div class="col-12 footer fixed-bottom bg-dark text-white py-3">
+			<div class="container mt-2">
+				<div class="row">
+					<div class="col-md-6 mt-3">
+						<p>Sistema desenvolvido por CEDI IFPR - Campus Paranavaí</p>
+					</div>
+					<div class="col-md-6 d-flex justify-content-end mt-3">
+						<div class="mr-3">
+							<i>
+								<p>Mensagem</p>
+							</i>
+						</div>
+						<div>
+							<i>
+								<p>Secretaria</p>
+							</i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="resources\js\pages\telaInicial\efeitosVisuais.js"></script>
+
+		<script>
+			
+		</script>
+	</h:body>
+
+
+</f:view>
 </html>

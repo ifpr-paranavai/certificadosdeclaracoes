@@ -173,18 +173,17 @@ public class PesquisaCertificadoMB implements Serializable {
 	}
 
 	public void pesquisarCertificados() {
-		//System.out.println("Dentro do pesquisar certificados");
 		HistoricoBusca b = new HistoricoBusca();
 		b.setCpf(cpf);
 		b.setNome(nome);
 		b.setTipo("pesquisa");
 		b.setDataTarefa(new Date());
 		historicoBuscaService.salvar(b);
-
+		System.out.println(cpf);
 		cpf = cpf.replace("'", "").replace("=", "");		
 		nome = nome.replace("'", "").replace("=", "");
 		String cpfLimpo = cpf.replace(".", "").replace("-", "");
-
+			
 		if (cpf.trim().length() > 0) {
 			listaCertificadosConsultaAluno = certificadoDAO
 					.listarCondicao("(pessoa.cpf='" + cpf + "' or pessoa.cpf='"+cpfLimpo+"') order by id desc");
