@@ -10,6 +10,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
+
 import br.com.cedi.dao.PessoaDAO;
 import br.com.cedi.model.Pessoa;
 import br.com.cedi.service.PessoaService;
@@ -31,8 +33,7 @@ public class PessoaMB implements Serializable {
 
 	@Inject
 	private PessoaDAO pessoaDAO;
-	
-	
+
 	private String pessoasImportar;
 
 	public void inicializar() {
@@ -46,77 +47,82 @@ public class PessoaMB implements Serializable {
 		System.out.println("Pessoa: " + p.getNome());
 		this.pessoa = p;
 	}
-	
-	public void prepararImportar(){
-		//nome,cpf,email,ra/siape;
+
+	public void prepararImportar() {
+		// nome,cpf,email,ra/siape;
 		this.listaPessoasImportar = new ArrayList<>();
 		String[] pessoas = pessoasImportar.split(";");
-		String cpfsInvalidos="";
-		String pessoasCadastradas="";
-		for(String p:pessoas){
+		String cpfsInvalidos = "";
+		String pessoasCadastradas = "";
+		for (String p : pessoas) {
 			String[] atributos = p.split(",");
 			Pessoa pes = new Pessoa();
 			pes.setNome(atributos[0].toUpperCase());
 			pes.setCpf(atributos[1].replace(".", "").replace("-", ""));
 			pes.setEmail(atributos[2].toLowerCase());
 			pes.setMatricula(atributos[3].toUpperCase());
-			
-			if(!ValidaCPF.isCPF(pes.getCpf())){
-				cpfsInvalidos+= pes.getCpf()+"; ";
-			}else{
-				String cpfComPonto = pes.getCpf().trim().substring(0, 3)+"."+pes.getCpf().trim().substring(3, 6)+"."+pes.getCpf().trim().substring(6, 9)+"-"+pes.getCpf().trim().substring(9, 11);
-				List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pes.getCpf().trim() + "' or cpf='"+pessoa.getCpf().replace(".", "").replace("-", "").trim()+"' or cpf='"+cpfComPonto+"'");
-				if(lp.size()>0){
-					pessoasCadastradas+=lp.get(0).getNome()+"-"+lp.get(0).getCpf()+"; ";
-				}else{
+
+			if (!ValidaCPF.isCPF(pes.getCpf())) {
+				cpfsInvalidos += pes.getCpf() + "; ";
+			} else {
+				String cpfComPonto = pes.getCpf().trim().substring(0, 3) + "." + pes.getCpf().trim().substring(3, 6) + "."
+						+ pes.getCpf().trim().substring(6, 9) + "-" + pes.getCpf().trim().substring(9, 11);
+				List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pes.getCpf().trim() + "' or cpf='"
+						+ pessoa.getCpf().replace(".", "").replace("-", "").trim() + "' or cpf='" + cpfComPonto + "'");
+				if (lp.size() > 0) {
+					pessoasCadastradas += lp.get(0).getNome() + "-" + lp.get(0).getCpf() + "; ";
+				} else {
 					listaPessoasImportar.add(pes);
 				}
 			}
 		}
-		
-		if(cpfsInvalidos.trim().length()>0){
+
+		if (cpfsInvalidos.trim().length() > 0) {
 			this.listaPessoasImportar = new ArrayList<>();
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Existem CPFs Inválidos: "+cpfsInvalidos));
-		}else if(pessoasCadastradas.trim().length()>0){
-			//this.listaPessoasImportar = new ArrayList<>();
+			context.addMessage(null, new FacesMessage("Existem CPFs Inválidos: " + cpfsInvalidos));
+		} else if (pessoasCadastradas.trim().length() > 0) {
+			// this.listaPessoasImportar = new ArrayList<>();
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Algumas pessoas que estão na listas já estão cadastradas e não serão importadas: "+pessoasCadastradas));
+			context.addMessage(null, new FacesMessage(
+					"Algumas pessoas que estão na listas já estão cadastradas e não serão importadas: " + pessoasCadastradas));
 		}
 	}
-	
-	public void finalizarImportacao(){
-		if(listaPessoasImportar.size()>0){
-			for(Pessoa p:listaPessoasImportar){
+
+	public void finalizarImportacao() {
+		if (listaPessoasImportar.size() > 0) {
+			for (Pessoa p : listaPessoasImportar) {
 				pessoaService.salvar(p);
 			}
 			this.listaPessoasImportar = new ArrayList<>();
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Importação Finalizada!!"));
-		}else{
+		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Nada para importar!!"));
 		}
-		
+
 	}
 
 	public void salvar() {
 		try {
-			
+
 			if (pessoa.getId() == null) {
 				pessoa.setStatus(true);
 				pessoa.setTipo("pessoa");
 				pessoa.setNome(pessoa.getNome().toUpperCase());
 				// pessoa.setSenha(CriptografiaSenha.criptografar(pessoa.getSenha()));
 				if (ValidaCPF.isCPF(pessoa.getCpf())) {
-//					List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "'");
-//					if (lp.size() > 0) {
-//						FacesContext context = FacesContext.getCurrentInstance();
-//						context.addMessage(null, new FacesMessage("CPF já cadastrado: " + lp.get(0).getNome()));
-//					} else {
-//						this.pessoaService.salvar(pessoa);
-//					}
-					if(verificaCadastrar()){
+					// List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() +
+					// "'");
+					// if (lp.size() > 0) {
+					// FacesContext context = FacesContext.getCurrentInstance();
+					// context.addMessage(null, new FacesMessage("CPF já cadastrado: " +
+					// lp.get(0).getNome()));
+					// } else {
+					// this.pessoaService.salvar(pessoa);
+					// }
+					if (verificaCadastrar()) {
 						this.pessoaService.salvar(pessoa);
 					}
 
@@ -147,27 +153,28 @@ public class PessoaMB implements Serializable {
 		preencherLista();
 	}
 
-	private boolean verificaCadastrar(){
-		List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "' or cpf='"+pessoa.getCpf().replace(".", "").replace("-", "").trim()+"'");
+	private boolean verificaCadastrar() {
+		List<Pessoa> lp = pessoaDAO.listarCondicao("cpf='" + pessoa.getCpf().trim() + "' or cpf='"
+				+ pessoa.getCpf().replace(".", "").replace("-", "").trim() + "'");
 		if (lp.size() > 0) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("CPF já cadastrado: " + lp.get(0).getNome()));
 			return false;
-		} else if(pessoa.getEmail().length()>2){
-			
+		} else if (pessoa.getEmail().length() > 2) {
+
 			lp = pessoaDAO.listarCondicao("email='" + pessoa.getEmail().trim() + "'");
 			if (lp.size() > 0) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("E-mail já cadastrado: " + lp.get(0).getNome()));
 				return false;
-			} else {								
-				return true;								
-			}	
-			
-		}else{
+			} else {
+				return true;
+			}
+
+		} else {
 			return true;
 		}
-		
+
 	}
 
 	public void atualizarUsuario() {
@@ -180,7 +187,7 @@ public class PessoaMB implements Serializable {
 					pessoa.setTipo("pessoa");
 					pessoa.setSenha(CriptografiaSenha.criptografar(pessoa.getSenha()));
 					if (ValidaCPF.isCPF(pessoa.getCpf())) {
-						if(verificaCadastrar()){
+						if (verificaCadastrar()) {
 							pessoaService.salvar(pessoa);
 						}
 
@@ -209,7 +216,7 @@ public class PessoaMB implements Serializable {
 
 				}
 
-			} catch (Exception e) {			
+			} catch (Exception e) {
 			}
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -233,6 +240,17 @@ public class PessoaMB implements Serializable {
 			// FacesContext context = FacesContext.getCurrentInstance();
 			// context.addMessage(null, new FacesMessage(Mensagem.ERRO));
 		}
+	}
+
+	public void limparCampos() {
+
+		this.pessoa = new Pessoa();
+
+		this.pessoa.setNome("");
+		this.pessoa.setEmail("");
+		this.pessoa.setCpf("");
+
+		PrimeFaces.current().ajax().update(":PaginaCadastroPessoa");
 	}
 
 	public void criarNovoObjeto() {
@@ -275,7 +293,5 @@ public class PessoaMB implements Serializable {
 	public void setListaPessoasImportar(List<Pessoa> listaPessoasImportar) {
 		this.listaPessoasImportar = listaPessoasImportar;
 	}
-	
-	
 
 }
