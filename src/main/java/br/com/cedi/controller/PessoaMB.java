@@ -34,6 +34,45 @@ public class PessoaMB implements Serializable {
 	
 	
 	private String pessoasImportar;
+	
+	private String nome;
+	private String cpf;
+	private String email;
+	private String ra;
+
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getRa() {
+		return ra;
+	}
+
+	public void setRa(String ra) {
+		this.ra = ra;
+	}
+	
 
 	public void inicializar() {
 		this.pessoa = new Pessoa();
@@ -45,6 +84,38 @@ public class PessoaMB implements Serializable {
 	public void editarUsuario(Pessoa p) {
 		System.out.println("Pessoa: " + p.getNome());
 		this.pessoa = p;
+	}
+	
+	public void prepararImportarSimples(){
+		System.out.println("Entrou simples");
+		nome = this.getNome().trim();
+		cpf = this.getCpf().trim();
+		email = this.getEmail().trim();
+		ra = this.getRa().trim();
+		concatenarPessoas(nome, cpf, email, ra);
+	}
+	
+	
+	public void concatenarPessoas(String nome, String cpf, String email, String ra) {
+	    String pessoaStr = nome + "," + cpf + ",";
+	    if (email != null && !email.isEmpty()) {
+	        pessoaStr += email;
+	    }
+	    pessoaStr += ",";
+	    if (ra != null && !ra.isEmpty()) {
+	        pessoaStr += ra;
+	    }
+	    pessoaStr += ";";
+	    pessoasImportar += pessoaStr;
+	    prepararImportar();
+	}
+
+
+	public void limparCampos() {
+		this.nome = " ";
+		this.cpf = " ";
+		this.email = " ";
+		this.ra = " ";
 	}
 	
 	public void prepararImportar(){
@@ -83,6 +154,7 @@ public class PessoaMB implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Algumas pessoas que estão na listas já estão cadastradas e não serão importadas: "+pessoasCadastradas));
 		}
+	    limparCampos();
 	}
 	
 	public void finalizarImportacao(){
