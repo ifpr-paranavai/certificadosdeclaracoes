@@ -44,7 +44,9 @@
 				<br />
 					<p:messages />
 						<h4 >Importar planilha</h4>
-					        <p:fileUpload class="small-file-upload" value="#{pessoaMB.arquivo}" mode="advanced"
+					        <p:fileUpload class="small-file-upload" value="#{pessoaMB.arquivo}"
+					        update="@form :formFormularioImportarPessoa"
+					         mode="advanced"
 								fileUploadListener="#{pessoaMB.handleFileUpload}"></p:fileUpload>
 			</div>
 				<br></br>

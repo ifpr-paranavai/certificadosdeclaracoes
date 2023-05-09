@@ -67,17 +67,32 @@ import net.sf.jasperreports.engine.virtualization.RecordedValuesSerializer;
        			// TODO Auto-generated catch block
        			e.printStackTrace();
        		}
+       		if(records.get(0).size() == 1) {
        		for (int i = 0; i < records.size(); i++) {
-
-					pessoa.setNome(records.get(i).get(0) + ",");
-					pessoa.setCpf(records.get(i).get(1)+ ",");
-					pessoa.setEmail(records.get(i).get(2)+ ",");
-					pessoa.setMatricula(records.get(i).get(3)+ ";");
-					System.out.println(pessoa.getNome() + pessoa.getCpf() +  pessoa.getEmail() + pessoa.getMatricula());
-					pessoas.add(pessoa);
-					texto += pessoa.getNome() + pessoa.getCpf() +  pessoa.getEmail() + pessoa.getMatricula();
-
-			}
+       			//record sise = 3
+       				String controle = "";
+       				//System.out.println(records.get(0) + " ----aa---0"+ records.size());
+       				
+       				controle+= records.get(i).get(0);
+       				System.out.println(controle);
+       				String converte = controle.replace(";", ",");
+       				texto += converte + ";";
+       				
+       				
+       				System.out.println(texto);
+       				
+       		       }
+       		}else {
+				System.out.println("teste passou");
+				for (int i = 0; i < records.size(); i++) {
+				pessoa.setNome(records.get(i).get(0) + ",");
+				pessoa.setCpf(records.get(i).get(1)+ ",");
+				pessoa.setEmail(records.get(i).get(2)+ ",");
+				pessoa.setMatricula(records.get(i).get(3)+ ";");
+				System.out.println(pessoa.getNome() + pessoa.getCpf() +  pessoa.getEmail() + pessoa.getMatricula());
+				pessoas.add(pessoa);
+				texto += pessoa.getNome() + pessoa.getCpf() +  pessoa.getEmail() + pessoa.getMatricula();
+			}}
 
             	 /**
             	  * 
