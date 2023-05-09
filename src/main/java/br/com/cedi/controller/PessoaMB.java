@@ -1,23 +1,33 @@
 package br.com.cedi.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.cedi.dao.PessoaDAO;
 import br.com.cedi.model.Pessoa;
 import br.com.cedi.service.PessoaService;
 import br.com.cedi.util.utilitarios.CriptografiaSenha;
 import br.com.cedi.util.utilitarios.ValidaCPF;
+import br.com.cedi.util.utilitarios.LeitorCsv;
 
 @ViewScoped
 @Named
+@ManagedBean
+@SessionScoped
 public class PessoaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +35,8 @@ public class PessoaMB implements Serializable {
 	private Pessoa pessoa;
 	private List<Pessoa> pessoas;
 	private List<Pessoa> listaPessoasImportar;
+	
+	UploadedFile arquivo;
 
 	@Inject
 	private PessoaService pessoaService;
@@ -32,14 +44,12 @@ public class PessoaMB implements Serializable {
 	@Inject
 	private PessoaDAO pessoaDAO;
 	
-	
 	private String pessoasImportar;
 	
 	private String nome;
 	private String cpf;
 	private String email;
 	private String ra;
-
 	
 	public String getNome() {
 		return nome;
@@ -84,6 +94,36 @@ public class PessoaMB implements Serializable {
 	public void editarUsuario(Pessoa p) {
 		System.out.println("Pessoa: " + p.getNome());
 		this.pessoa = p;
+	}
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		  System.out.println("Aqui");
+	        //this.originalImageFile = null;
+	        //this.croppedImage = null;
+	        UploadedFile file = event.getFile();
+
+	        try {
+	        	pessoasImportar = csvImporta(file);
+				prepararImportar();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        if (file != null
+	        		) {
+	            System.out.println(file.getFileName());
+
+	        }
+	    }
+	
+	public String csvImporta(UploadedFile arquivo) throws IOException {
+
+		LeitorCsv leitor = new LeitorCsv();
+
+		String retorno;
+		System.out.println("retorno");
+		return leitor.ler(arquivo);
 	}
 	
 	public void prepararImportarSimples(){
@@ -348,6 +388,12 @@ public class PessoaMB implements Serializable {
 		this.listaPessoasImportar = listaPessoasImportar;
 	}
 	
-	
+	public UploadedFile getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(UploadedFile arquivo) {
+		this.arquivo = arquivo;
+	}
 
 }
